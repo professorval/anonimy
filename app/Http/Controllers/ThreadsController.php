@@ -4,6 +4,7 @@
     use Validator;
     use App\Http\Controllers\Controller;
     use App\Models\Thread;
+    use App\Models\Message;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Str;
@@ -12,7 +13,8 @@
         
         public function __construct()
         {
-            $this->middleware('auth');
+            //-- make get_thread available for all users but other methods need authentication
+            $this->middleware('auth')->except(['get_thread']);
         }
 
         protected function create(Request $request){
@@ -57,6 +59,63 @@
                         'message' => $th->getMessage()
                     ]);
                 }
+            }
+        }
+
+        public function get_threads() {
+            //-- get all threads belonging to this user
+            try {
+                $user = Auth::user();
+                $threads = Thread::where('user_id', $user->id)->get()->toArray();
+                
+                return response()->json([
+                    'status' => true,
+                    'data' => $threads
+                ]);
+
+            } catch (\Throwable $th) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $th->getMessage()
+                ]);
+            }
+        }
+
+        public function get_thread(Request $request){
+            try{
+                $user = Auth::user();
+                $thread = Thread::where('slug', '=', $request->slug)
+                    ->join('users', 'threads.user_id', '=', 'users.id')
+                    ->select('threads.*', 'users.name as user_name')
+                    ->firstOrFail();
+
+                if(Auth::user() && Auth::user()->id === $thread->user_id){
+                    return response()->json([
+                        'status' => true,
+                        'owner' => true,
+                        'data' => [
+                            'thread' => $thread,
+                            'messages' => Message::where('thread_id', '=', $thread->id)->get(),
+                        ]
+                    ]);
+                }
+                else{
+                    return response()->json([
+                        'status' => true,
+                        'data' => [
+                            'thread' => $thread,
+                        ]
+                    ]);
+                }
+
+                
+                
+            }
+            catch (\Throwable $th) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $th->getMessage()
+                ]);
             }
         }
     }

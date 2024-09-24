@@ -6,7 +6,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse" id="collapsibleNavbar" :class="!visible?'collapse':''" >
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" v-if="isLoggedIn">
                     <li class="nav-item">
                         <a class="nav-link" href="#"><font-awesome-icon icon="house" /> Home</a>
                     </li>
@@ -22,18 +22,28 @@
                         </a>
                     </li>
                 </ul>
+                <ul class="navbar-nav" v-else>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Create your own thread</a>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav> 
 </template>
 <script lang="js">
-    import router from '../router'
+    import router from '@/router'
+    import isLoggedMixin from '@/helpers/auth';
 
     export default {
+        mixins: [isLoggedMixin],
         data() {
             return {
                 visible: false,
             };
+        },
+        created() {
+            this.checkIfLogged()
         },
         methods: {
             toggleNavbar() {

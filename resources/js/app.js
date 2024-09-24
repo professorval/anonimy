@@ -16,6 +16,9 @@ import HomeLoggedIn from './pages/HomeLoggedIn.vue';
 import HomeLoggedOut from './pages/HomeLoggedOut.vue';
 import Navbar from './page-components/Navbar.vue';
 import Breadcrumbs from './page-components/Breadcrumbs.vue';
+import ThreadCard from './page-components/user/ThreadCard.vue';
+import MessageCard from './page-components/user/MessageCard.vue';
+import ViewThread from './page-components/user/ViewThread.vue';
 import Footer from './page-components/Footer.vue';
 
 const app = createApp(App)
@@ -25,6 +28,9 @@ app.use(plugin, defaultConfig);
 
 app.component('Navbar', Navbar)
 app.component('Breadcrumbs', Breadcrumbs)
+app.component('ThreadCard', ThreadCard)
+app.component('MessageCard', MessageCard)
+app.component('ViewThread', ViewThread)
 app.component('Footer', Footer)
 app.component('HomeLoggedIn', HomeLoggedIn)
 app.component('HomeLoggedOut', HomeLoggedOut)

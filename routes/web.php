@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegistrationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ThreadsController;
+use App\Http\Controllers\MessagesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,12 @@ Route::group(['prefix' => '/api'], function () {
 
     Route::group(['prefix' => '/threads'], function () {
         Route::post('/create',       [ThreadsController::class, 'create']);
+        Route::post('/view',       [ThreadsController::class, 'get_threads']);
+        Route::post('/get',       [ThreadsController::class, 'get_thread']);
+    });
+
+    Route::group(['prefix' => '/messages'], function () {
+        Route::post('/create',       [MessagesController::class, 'create']);
     });
 
 });

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from '@/router'
 
 const isLoggedMixin = {
     data() {
@@ -17,7 +18,6 @@ const isLoggedMixin = {
                 const data = { _token: csrfToken };
 
                 const response = await axios.post(import.meta.env.VITE_APP_URL+'api/auth/sessionStatus', data);
-                console.log('Call complete: ', response.data);
 
                 if (response.data.status === true) {
                     this.user = response.data.user;
@@ -26,6 +26,7 @@ const isLoggedMixin = {
                 else {
                     this.user = null;
                     this.isLoggedIn = false;
+                    //router.push('/')
                     console.log('NOT Logged in!');
                 }
             } catch (error) {

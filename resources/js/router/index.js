@@ -4,6 +4,7 @@ import LoginForm from '../pages/LoginForm.vue'
 import RegisterForm from '../pages/RegisterForm.vue'
 import CreateThread from '../page-components/user/CreateThread.vue'
 import ViewThreads from '../page-components/user/ViewThreads.vue'
+import ViewThread from '../page-components/user/ViewThread.vue';
 
 
 const DEFAULT_TITLE = 'Anonimy';
@@ -41,6 +42,12 @@ const router = createRouter({
             name: 'View threads',
             meta: { title: DEFAULT_TITLE + ' | View threads' },
             component: ViewThreads
+        },
+        {
+            path: '/thread/:slug',
+            name: 'View thread',
+            meta: { title: DEFAULT_TITLE + ' | View thread' },
+            component: ViewThread
         }
     ]
 })
