@@ -11,7 +11,8 @@ const DEFAULT_TITLE = 'Anonimy';
 
 const router = createRouter({
     mode: 'history',
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory("/"),
+    //history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
         {
             path: '/',
